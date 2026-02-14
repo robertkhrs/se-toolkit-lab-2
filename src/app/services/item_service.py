@@ -236,8 +236,25 @@ def get_item_by_id_dfs_iterative(
                             if step.id == item_id:
                                 return FoundItem(step, counter)
         case PostOrder():
-            # TODO implement
-            pass
+            stack = list(courses)
+            output_stack = []
+
+            while stack:
+                current = stack.pop()
+                output_stack.append(current)
+
+                if hasattr(current, "labs"):
+                    stack.extend(current.labs)
+                if hasattr(current, "tasks"):
+                    stack.extend(current.tasks)
+                if hasattr(current, "steps"):
+                    stack.extend(current.steps)
+
+            while output_stack:
+                item = output_stack.pop()
+                counter += 1
+                if item.id == item_id:
+                    return FoundItem(item, counter)
     return None
 
 
